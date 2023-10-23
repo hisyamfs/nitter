@@ -35,8 +35,9 @@ proc migrate*(key, match: string) {.async.} =
     if hasKey == redisNil:
       let list = await r.scan(newCursor(0), match, 100000)
       r.startPipelining()
-      for item in list:
-        dawait r.del(item)
+      dawait r.del(list)
+      # for item in list:
+      #   dawait r.del(item)
       await r.setk(key, "true")
       dawait r.flushPipeline()
 

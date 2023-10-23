@@ -1,0 +1,176 @@
+{
+  "version": 2,
+  "packages": {
+    "flatty": {
+      "version": "0.3.4",
+      "vcsRevision": "e66808508b3e5a05c53039226b467404febeb7f0",
+      "url": "https://github.com/treeform/flatty",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "48109ac5d2f65f9d1a61f5077ba0eb61d104a90a"
+      }
+    },
+    "redis": {
+      "version": "0.3.0",
+      "vcsRevision": "d0a0e6fb3010015f0cc483ca2e540ace02446570",
+      "url": "https://github.com/zedeus/redis",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "9b1a45983890db1f1775ecddc51925000d183c57"
+      }
+    },
+    "redpool": {
+      "version": "0.1.0",
+      "vcsRevision": "8b7c1db069797300425037c98b825c5d3316f752",
+      "url": "https://github.com/zedeus/redpool",
+      "downloadMethod": "git",
+      "dependencies": [
+        "redis"
+      ],
+      "checksums": {
+        "sha1": "3d2665fc592c25cbe5d253957bc16e9666227c3d"
+      }
+    },
+    "ws": {
+      "version": "0.5.0",
+      "vcsRevision": "9536bf99ddf5948db221ccb7bb3663aa238a8e21",
+      "url": "https://github.com/treeform/ws",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "ae4daf4ae302d0431f3c2d385ae9d2fe767a3246"
+      }
+    },
+    "dotenv": {
+      "version": "2.0.1",
+      "vcsRevision": "4b8613cb4c46331729e88f594c5ae2b727381a57",
+      "url": "https://github.com/euantorano/dotenv.nim",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "9a9e39544f129e6666935796610da79fbe724510"
+      }
+    },
+    "karax": {
+      "version": "1.3.0",
+      "vcsRevision": "5cf360c1fd85af8a4cb71a39f626648cfa5695a3",
+      "url": "https://github.com/karaxnim/karax/",
+      "downloadMethod": "git",
+      "dependencies": [
+        "ws",
+        "dotenv"
+      ],
+      "checksums": {
+        "sha1": "481742b3d0c0e3c92174b1bdd08a4a94853250af"
+      }
+    },
+    "asynctools": {
+      "version": "0.1.1",
+      "vcsRevision": "a314fb8d18a08954fc7ea43e40673acb348ce7cc",
+      "url": "https://github.com/timotheecour/asynctools",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "5e7df4178ee5c148532ff8c44a22015d576624d8"
+      }
+    },
+    "httpbeast": {
+      "version": "0.4.1",
+      "vcsRevision": "abc13d11c210b614960fe8760e581d44cfb2e3e9",
+      "url": "https://github.com/dom96/httpbeast",
+      "downloadMethod": "git",
+      "dependencies": [
+        "asynctools"
+      ],
+      "checksums": {
+        "sha1": "b23e57a401057dcb9b7fae1fb8279a6a2ce1d0b8"
+      }
+    },
+    "jester": {
+      "version": "0.5.0",
+      "vcsRevision": "baca3fe328b2020b3fda3038eb626a440a7d265c",
+      "url": "https://github.com/dom96/jester/",
+      "downloadMethod": "git",
+      "dependencies": [
+        "httpbeast",
+        "asynctools"
+      ],
+      "checksums": {
+        "sha1": "afb591b0a6cd39f4d5f2195bffb7095640e3da97"
+      }
+    },
+    "jsony": {
+      "version": "1.1.5",
+      "vcsRevision": "ea811bec7fa50f5abd3088ba94cda74285e93f18",
+      "url": "https://github.com/treeform/jsony",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "6aeb83e7481ca8686396a568096054bc668294df"
+      }
+    },
+    "markdown": {
+      "version": "0.8.6",
+      "vcsRevision": "158efe32b1436a9b4d7ef37f1a4733ee4252c7f4",
+      "url": "https://github.com/soasme/nim-markdown",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "53b43fa57e6aa106e634ae97b793f1c6e7da7ce6"
+      }
+    },
+    "sass": {
+      "version": "0.3.0",
+      "vcsRevision": "7dfdd03ccfe3384c995ea70d6d727bfe886fdd4e",
+      "url": "https://github.com/dom96/sass",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "21e4dcb1ab3d32d343df1d8293affa9ea9c92f70"
+      }
+    },
+    "zippy": {
+      "version": "0.10.7",
+      "vcsRevision": "ca5989a1ba8bdba897d7906dfd6ccda2580d9a5a",
+      "url": "https://github.com/guzba/zippy",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "8ec66d2af90ca93f96c0388ae933f03a60ff67d1"
+      }
+    },
+    "packedjson": {
+      "version": "0.2.2",
+      "vcsRevision": "9e6fbb63cb9e0ab8ff570c04bec28cc713ca1f7c",
+      "url": "https://github.com/Araq/packedjson",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "8aec1ecc233e2ac4d04f0a3dd02d03c73d7b4665"
+      }
+    },
+    "nimcrypto": {
+      "version": "0.5.4",
+      "vcsRevision": "4014ef939b51e02053c2e16dd3481d47bc9267dd",
+      "url": "https://github.com/cheatfate/nimcrypto",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "6e0f5178a608ecf7bb046fd0179bf78662fcff16"
+      }
+    },
+    "supersnappy": {
+      "version": "2.1.3",
+      "vcsRevision": "6c94198ea0e6835dcf11e3a207542cbb6bfb1cd9",
+      "url": "https://github.com/guzba/supersnappy",
+      "downloadMethod": "git",
+      "dependencies": [],
+      "checksums": {
+        "sha1": "a197de45773703f7134301043e416fb5025c614d"
+      }
+    }
+  },
+  "tasks": {}
+}

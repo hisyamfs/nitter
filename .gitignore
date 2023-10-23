@@ -11,3 +11,8 @@ nitter
 /public/md/*.html
 nitter.conf
 dump.rdb
+nimble.develop
+nimble.paths
+
+/ignore
+*.ignore
