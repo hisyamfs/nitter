@@ -8,6 +8,7 @@ import std/[
   strformat,
   strutils
 ]
+import base32
 
 template withFile(f: File, body: untyped) =
   try:
@@ -35,11 +36,11 @@ proc main() =
     nitter_conf_filename = state_dir / "nitter.conf"
 
   var 
-    secret: seq[byte] 
+    secret: string
     secret_file: File
 
   if not existsFile(secret_filename):
-    secret = urandom(32)
+    secret = urandom(32).encode()
     secret_file = open(secret_filename, fmWrite)
 
     withFile secret_file:
@@ -47,7 +48,7 @@ proc main() =
   else:
     secret_file = open(secret_filename, fmRead) 
     withFile secret_file:
-      secret_file.readBytes(secret, 0, 32)
+      secret = secret_file.readAll()
   
   let 
     config_file = open(config_filename)    
@@ -57,7 +58,7 @@ proc main() =
     withFile nitter_conf_file:
       let 
         old_config = config_file.readAll()
-        secret_str = toString(secret) 
+        secret_str = secret 
         new_config = old_config.replace("@hmac@", secret_str)
 
       nitter_conf_file.write(new_config)
