@@ -19,6 +19,8 @@ let
       Preferences = cfg.preferences;
     } cfg.settings)}
   '';
+
+  # TODO: replace this with nim, usual python cruft happens
   # `hmac` is a secret used for cryptographic signing of video URLs.
   # Generate it on first launch, then copy configuration and replace
   # `@hmac@` with this value.
