@@ -1,4 +1,4 @@
-{ config, lib, pkgs, nitter, ... }:
+{ config, lib, pkgs, nitter, nitter-prestart, ... }:
 
 with lib;
 
@@ -25,26 +25,7 @@ let
   # Generate it on first launch, then copy configuration and replace
   # `@hmac@` with this value.
   # We are not using sed as it would leak the value in the command line.
-  preStart = pkgs.writers.writePython3 "nitter-prestart" {} ''
-    import os
-    import secrets
-
-    state_dir = os.environ.get("STATE_DIRECTORY")
-    if not os.path.isfile(f"{state_dir}/hmac"):
-        # Generate hmac on first launch
-        hmac = secrets.token_hex(32)
-        with open(f"{state_dir}/hmac", "w") as f:
-            f.write(hmac)
-    else:
-        # Load previously generated hmac
-        with open(f"{state_dir}/hmac", "r") as f:
-            hmac = f.read()
-
-    configFile = "${configFile}"
-    with open(configFile, "r") as f_in:
-        with open(f"{state_dir}/nitter.conf", "w") as f_out:
-            f_out.write(f_in.read().replace("@hmac@", hmac))
-  '';
+  preStart = "${nitter-prestart} ${configFile}";
 in
 {
   imports = [
