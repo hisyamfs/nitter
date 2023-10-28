@@ -55,6 +55,8 @@
 
       packages.nitter = nitter;
       packages.default = nitter;
+
+      nixosModules.default = import ./nitter-service.nix;
     }
   );
 }
