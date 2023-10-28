@@ -40,7 +40,8 @@ proc main() =
     secret_file: File
 
   if not existsFile(secret_filename):
-    secret = urandom(32).encode()
+    let secret_bytes = urandom(32)
+    secret = encode(secret_bytes)
     secret_file = open(secret_filename, fmWrite)
 
     withFile secret_file:

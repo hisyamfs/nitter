@@ -93,11 +93,11 @@ map fetchNimble [
       hash = "sha256-s44dUPseQGfU4YwQ/gjN3jqnrSa/b1ikbpDPYnoUEAY=";
     }
 
-    {
-      pname = "base32";
-      version = "0.1.3";
-      hash = "sha256-BsDly13xsY2bu4N9LGHB0OGej/JhAx3B01TDdF0M8Jk=";
-    }
+    # {
+    #   pname = "base32";
+    #   version = "0.1.3";
+    #   hash = "sha256-BsDly13xsY2bu4N9LGHB0OGej/JhAx3B01TDdF0M8Jk=";
+    # }
     
   # End auto generated input
 ]
