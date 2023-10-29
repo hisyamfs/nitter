@@ -31,22 +31,34 @@
         nimRelease = true;
         buildInputs = nimbleDeps;
       };
-      nitterCss = buildNimPackage {
-        pname = "nitter-css";
-        version = "0.1.0";
-        src = ./tools/gencss.nim;
-        nimbleFile = ./nitter.nimble;
-        nimRelease = true;
-        buildInputs = nimbleDeps;
-      };
-      nitterMd = buildNimPackage {
-        pname = "nitter-md";
-        version = "0.1.0";
-        src = ./tools/rendermd.nim;
-        nimbleFile = ./nitter.nimble;
-        nimRelease = true;
-        buildInputs = nimbleDeps;
-      };
+      assets = 
+        let 
+          nimc = "${pkgs.nim}/bin/nim";
+          mkLibFlag = path: sep: ''--path:"${path}/src"'' + sep;
+        in mkDerivation rec {
+          pname = "nitter-assets";
+          version = "0.1.0";
+          src = ./.;
+          buildInputs = nimbleDeps;
+          buildPhase = let 
+            libFlags = builtins.foldl' 
+              (p: n: p + (mkLibFlag n " "))
+              "" buildInputs
+            ;
+            libNimCfg = builtins.foldl' 
+              (p: n: p + (mkLibFlag n "\n"))
+              "" buildInputs
+            ;
+            genCss = "${nimc} r ${libFlags} -d:release --nimcache:$TMPDIR tools/gencss.nim";
+            renderMd = "${nimc} r ${libFlags} -d:release --nimcache:$TMPDIR tools/rendermd.nim";
+          in ''
+            ${renderMd}
+            ${genCss}
+          '';
+          installPhase = ''
+            cp public/** $out
+          '';
+        };
       hmacgen = 
         let
           nimc = "${pkgs.nim}/bin/nim";
@@ -71,6 +83,7 @@
       packages.nitter = nitter;
       packages.default = nitter;
       packages.hmacgen = hmacgen;
+      packages.assets = assets;
 
       nixosModules.default = 
         { 
