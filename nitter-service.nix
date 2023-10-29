@@ -27,7 +27,7 @@ in
   ];
 
   options = {
-    services.nitter = {
+    services.nitter_id = {
       enable = mkEnableOption (lib.mdDoc "Nitter");
 
       package = mkOption {
