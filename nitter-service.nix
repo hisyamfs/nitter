@@ -4,8 +4,11 @@ with lib;
 
 let
   cfg = config.services.nitter_id;
+
   nitter = nitterPkgs.nitter;
   hmacgen = nitterPkgs.hmacgen;
+  assets = nitterPkgs.assets;
+
   configFile = pkgs.writeText "nitter.conf" ''
     ${generators.toINI {
       # String values need to be quoted
@@ -47,6 +50,13 @@ in
         description = lib.mdDoc "The nitter HMAC generator to use";
       };
 
+      assets = mkOption {
+        default = assets;
+        type = types.package;
+        defaultText = literalExpression "assets";
+        description = mdDoc "Nitter static assets derivation";
+      };
+
       server = {
         address = mkOption {
           type =  types.str;
@@ -76,8 +86,8 @@ in
 
         staticDir = mkOption {
           type = types.path;
-          default = "${cfg.package}/share/nitter/public";
-          defaultText = literalExpression ''"''${config.services.nitter.package}/share/nitter/public"'';
+          default = "${cfg.assets}/public";
+          defaultText = literalExpression ''"''${config.services.nitter.assets}/public"'';
           description = lib.mdDoc "Path to the static files directory.";
         };
 
@@ -333,7 +343,7 @@ in
           Environment = [ "NITTER_CONF_FILE=/var/lib/nitter/nitter.conf" ];
           # Some parts of Nitter expect `public` folder in working directory,
           # see https://github.com/zedeus/nitter/issues/414
-          WorkingDirectory = "${cfg.package}/share/nitter";
+          WorkingDirectory = "${cfg.assets}";
           ExecStart = "${cfg.package}/bin/nitter";
           ExecStartPre = mkIf cfg.randomHMACKey "${cfg.hmacgen}/bin/hmacgen ${configFile}";
           AmbientCapabilities = lib.mkIf (cfg.server.port < 1024) [ "CAP_NET_BIND_SERVICE" ];

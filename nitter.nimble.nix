@@ -93,6 +93,12 @@ map fetchNimble [
       hash = "sha256-s44dUPseQGfU4YwQ/gjN3jqnrSa/b1ikbpDPYnoUEAY=";
     }
 
+    # GOBLOK
+    # {
+    #   pname = "markdown";
+    #   version = "0.8.7";
+    # }
+
     # {
     #   pname = "base32";
     #   version = "0.1.3";

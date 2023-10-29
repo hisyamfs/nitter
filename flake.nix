@@ -17,7 +17,14 @@
       nimDeps = with pkgs; [
         nim
       ]; 
-      nimbleDeps = import ./nitter.nimble.nix { fetchNimble = pkgs.nimPackages.fetchNimble; };
+
+      nimMarkdown = pkgs.fetchFromGitHub {
+        owner = "soasme";
+        repo = "nim-markdown";
+        rev = "v0.8.7";
+        hash = "sha256-5k9SrSgHLBeNUVm03h7a7GwQSpyg/aGhbjSoaBWsM7I=";
+      };
+      nimbleDeps = [nimMarkdown] ++ (import ./nitter.nimble.nix { fetchNimble = pkgs.nimPackages.fetchNimble; });
 
       mkShell = pkgs.mkShell;
       mkDerivation = pkgs.stdenv.mkDerivation;
@@ -39,7 +46,7 @@
           pname = "nitter-assets";
           version = "0.1.0";
           src = ./.;
-          buildInputs = nimbleDeps;
+          buildInputs = nimbleDeps ++ [pkgs.libsass];
           buildPhase = let 
             libFlags = builtins.foldl' 
               (p: n: p + (mkLibFlag n " "))
@@ -49,14 +56,15 @@
               (p: n: p + (mkLibFlag n "\n"))
               "" buildInputs
             ;
-            genCss = "${nimc} r ${libFlags} -d:release --nimcache:$TMPDIR tools/gencss.nim";
-            renderMd = "${nimc} r ${libFlags} -d:release --nimcache:$TMPDIR tools/rendermd.nim";
+            genCss = "${nimc} r ${libFlags} -d:release -d:nimDebugDlOpen --nimcache:$TMPDIR tools/gencss.nim";
+            renderMd = "${nimc} r ${libFlags} -d:release -d:nimDebugDlOpen --nimcache:$TMPDIR tools/rendermd.nim";
           in ''
-            ${renderMd}
             ${genCss}
+            ${renderMd}
           '';
           installPhase = ''
-            cp public/** $out
+            mkdir -p $out/public
+            cp -r public/** $out/public
           '';
         };
       hmacgen = 
@@ -66,7 +74,7 @@
           pname = "nitter-hmac";
           version = "0.1.0";
           src = ./tools;
-          buildInputs = nimbleDeps;
+          buildInputs = nimbleDeps ++ [pkgs.sass];
           buildPhase = ''
             ${nimc} -d:release -o:hmacgen --nimcache:$TMPDIR c hmacgen.nim 
           '';
