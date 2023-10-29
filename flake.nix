@@ -77,7 +77,7 @@
           lib
           , config
           , pkgs
-          , nitterPkgs ? packages
+          , nitterPkgs 
           , ... 
         }: {
           imports = [
