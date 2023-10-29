@@ -20,6 +20,7 @@
       nimbleDeps = import ./nitter.nimble.nix { fetchNimble = pkgs.nimPackages.fetchNimble; };
 
       mkShell = pkgs.mkShell;
+      mkDerivation = pkgs.stdenv.mkDerivation;
       buildNimPackage = pkgs.nimPackages.buildNimPackage;
 
       nitter = buildNimPackage {
@@ -46,7 +47,21 @@
         nimRelease = true;
         buildInputs = nimbleDeps;
       };
-
+      hmacgen = 
+        let
+          nimc = "${pkgs.nim}/bin/nim";
+        in mkDerivation {
+          pname = "nitter-hmac";
+          version = "0.1.0";
+          src = ./tools;
+          buildInputs = nimbleDeps;
+          buildPhase = ''
+            ${nimc} -d:release -o:genhmac --nimcache:$TMPDIR c genhmac.nim 
+          '';
+          installPhase = ''
+            install -Dt $out/bin genhmac
+          '';
+        };
     in {
       devShells.default = mkShell {
         buildInputs = nimDeps ++ nimbleDeps;
@@ -55,8 +70,20 @@
 
       packages.nitter = nitter;
       packages.default = nitter;
+      packages.hmacgen = hmacgen;
 
-      nixosModules.default = import ./nitter-service.nix;
+      nixosModules.default = 
+        { 
+          config
+          , pkgs
+          , nitter ? nitter
+          , hmacgen ? hmacgen
+          , ... 
+        }: {
+          imports = [
+            ./nitter-service.nix
+          ];
+        };
     }
   );
 }

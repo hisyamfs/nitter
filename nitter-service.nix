@@ -1,4 +1,4 @@
-{ config, lib, pkgs, nitter, nitter-prestart, ... }:
+{ config, lib, pkgs, nitter, hmacgen, ... }:
 
 with lib;
 
@@ -19,13 +19,6 @@ let
       Preferences = cfg.preferences;
     } cfg.settings)}
   '';
-
-  # TODO: replace this with nim, usual python cruft happens
-  # `hmac` is a secret used for cryptographic signing of video URLs.
-  # Generate it on first launch, then copy configuration and replace
-  # `@hmac@` with this value.
-  # We are not using sed as it would leak the value in the command line.
-  preStart = "${nitter-prestart} ${configFile}";
 in
 {
   imports = [
@@ -40,8 +33,15 @@ in
       package = mkOption {
         default = nitter;
         type = types.package;
-        defaultText = literalExpression "pkgs.nitter";
+        defaultText = literalExpression "nitter";
         description = lib.mdDoc "The nitter derivation to use.";
+      };
+
+      hmacgen = mkOption {
+        default = hmacgen;
+        type = types.package;
+        defaultTect = literalExpression "nitter_prestart";
+        description = lib.mdDoc "The nitter HMAC generator to use";
       };
 
       server = {
@@ -326,7 +326,7 @@ in
           # see https://github.com/zedeus/nitter/issues/414
           WorkingDirectory = "${cfg.package}/share/nitter";
           ExecStart = "${cfg.package}/bin/nitter";
-          ExecStartPre = "${preStart}";
+          ExecStartPre = "${cfg.hmacgen} ${configFile}";
           AmbientCapabilities = lib.mkIf (cfg.server.port < 1024) [ "CAP_NET_BIND_SERVICE" ];
           Restart = "on-failure";
           RestartSec = "5s";
