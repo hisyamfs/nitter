@@ -74,7 +74,8 @@
 
       nixosModules.default = 
         { 
-          config
+          lib
+          , config
           , pkgs
           , nitter ? nitter
           , hmacgen ? hmacgen
