@@ -3,7 +3,7 @@
 with lib;
 
 let
-  cfg = config.services.nitter;
+  cfg = config.services.nitter_id;
   configFile = pkgs.writeText "nitter.conf" ''
     ${generators.toINI {
       # String values need to be quoted
