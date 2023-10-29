@@ -40,7 +40,7 @@ in
       hmacgen = mkOption {
         default = hmacgen;
         type = types.package;
-        defaultTect = literalExpression "nitter_prestart";
+        defaultText = literalExpression "nitter_prestart";
         description = lib.mdDoc "The nitter HMAC generator to use";
       };
 
