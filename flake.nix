@@ -56,10 +56,10 @@
           src = ./tools;
           buildInputs = nimbleDeps;
           buildPhase = ''
-            ${nimc} -d:release -o:genhmac --nimcache:$TMPDIR c genhmac.nim 
+            ${nimc} -d:release -o:hmacgen --nimcache:$TMPDIR c hmacgen.nim 
           '';
           installPhase = ''
-            install -Dt $out/bin genhmac
+            install -Dt $out/bin hmacgen
           '';
         };
     in {
