@@ -1,9 +1,11 @@
-{ config, lib, pkgs, nitter, hmacgen, ... }:
+{ config, lib, pkgs, nitterPkgs, ... }:
 
 with lib;
 
 let
   cfg = config.services.nitter_id;
+  nitter = nitterPkgs.nitter;
+  hmacgen = nitterPkgs.hmacgen;
   configFile = pkgs.writeText "nitter.conf" ''
     ${generators.toINI {
       # String values need to be quoted

@@ -62,7 +62,7 @@
             install -Dt $out/bin hmacgen
           '';
         };
-    in {
+    in rec {
       devShells.default = mkShell {
         buildInputs = nimDeps ++ nimbleDeps;
         # buildInputs = nimDeps;
@@ -77,8 +77,7 @@
           lib
           , config
           , pkgs
-          , nitter ? nitter
-          , hmacgen ? hmacgen
+          , nitterPkgs ? packages
           , ... 
         }: {
           imports = [
