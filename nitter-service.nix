@@ -19,15 +19,16 @@ let
       Preferences = cfg.preferences;
     } cfg.settings)}
   '';
+  serviceName = "nitter_id";
 in
 {
   imports = [
     # https://github.com/zedeus/nitter/pull/772
-    (mkRemovedOptionModule [ "services" "nitter" "replaceInstagram" ] "Nitter no longer supports this option as Bibliogram has been discontinued.")
+    (mkRemovedOptionModule [ "services" serviceName "replaceInstagram" ] "Nitter no longer supports this option as Bibliogram has been discontinued.")
   ];
 
   options = {
-    services.nitter_id = {
+    services."${serviceName}" = {
       enable = mkEnableOption (lib.mdDoc "Nitter");
 
       package = mkOption {
@@ -314,7 +315,7 @@ in
       }
     ];
 
-    systemd.services.nitter_id = {
+    systemd.services."${serviceName}" = {
         description = "Nitter (An alternative Twitter front-end)";
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" ];
@@ -358,7 +359,7 @@ in
         };
     };
 
-    services.redis.servers.nitter_id = lib.mkIf (cfg.redisCreateLocally) {
+    services.redis.servers."${serviceName}" = lib.mkIf (cfg.redisCreateLocally) {
       enable = true;
       port = cfg.cache.redisPort;
     };
