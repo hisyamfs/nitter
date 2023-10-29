@@ -175,6 +175,12 @@ in
         };
       };
 
+      randomHMACKey = mkOption {
+        type = types.bool;
+        default = true;
+        description = mdDoc "Randomize HMAC secret key";
+      };
+
       preferences = {
         replaceTwitter = mkOption {
           type = types.str;
@@ -327,7 +333,7 @@ in
           # see https://github.com/zedeus/nitter/issues/414
           WorkingDirectory = "${cfg.package}/share/nitter";
           ExecStart = "${cfg.package}/bin/nitter";
-          ExecStartPre = "${cfg.hmacgen}/bin/hmacgen ${configFile}";
+          ExecStartPre = mkIf cfg.randomHMACKey "${cfg.hmacgen}/bin/hmacgen ${configFile}";
           AmbientCapabilities = lib.mkIf (cfg.server.port < 1024) [ "CAP_NET_BIND_SERVICE" ];
           Restart = "on-failure";
           RestartSec = "5s";
