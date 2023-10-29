@@ -314,7 +314,7 @@ in
       }
     ];
 
-    systemd.services.nitter = {
+    systemd.services.nitter_id = {
         description = "Nitter (An alternative Twitter front-end)";
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" ];
@@ -358,7 +358,7 @@ in
         };
     };
 
-    services.redis.servers.nitter = lib.mkIf (cfg.redisCreateLocally) {
+    services.redis.servers.nitter_id = lib.mkIf (cfg.redisCreateLocally) {
       enable = true;
       port = cfg.cache.redisPort;
     };
